@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("POSI:",position+"<-");
+                Log.i("AQUI SI:",position+"<-");
                 //Force the fragment to reload its data
                 switch (position){
                     case 0: getSupportActionBar().setTitle("Inicio");
