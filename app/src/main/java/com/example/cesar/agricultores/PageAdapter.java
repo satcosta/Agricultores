@@ -28,17 +28,20 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 principal tab1 = new principal();
                 return tab1;
             case 1:
-                albaranes tab2 = new albaranes();
+                pizarra tab2 = new pizarra();
                 return tab2;
             case 2:
-                saldos tab3 = new saldos();
+                albaranes tab3 = new albaranes();
                 return tab3;
             case 3:
-                envases tab4 = new envases();
+                saldos tab4 = new saldos();
                 return tab4;
             case 4:
-                configuracion tab5 = new configuracion();
+                envases tab5 = new envases();
                 return tab5;
+            case 5:
+                configuracion tab6 = new configuracion();
+                return tab6;
             default:
                 return null;
         }

@@ -38,13 +38,15 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.getTabAt(0).setIcon(R.drawable.home);
-        tabLayout.getTabAt(1).setIcon(R.drawable.albaranes);
-        tabLayout.getTabAt(2).setIcon(R.drawable.saldos);
-        tabLayout.getTabAt(3).setIcon(R.drawable.envases);
-        tabLayout.getTabAt(4).setIcon(R.drawable.configuracion);
+        tabLayout.getTabAt(1).setIcon(R.drawable.pizarra);
+        tabLayout.getTabAt(2).setIcon(R.drawable.albaranes);
+        tabLayout.getTabAt(3).setIcon(R.drawable.saldos);
+        tabLayout.getTabAt(4).setIcon(R.drawable.envases);
+        tabLayout.getTabAt(5).setIcon(R.drawable.configuracion);
         //cambiar tamaño texto
         /*
         Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/CaviarDreams.ttf");
@@ -97,13 +99,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (position){
                     case 0: getSupportActionBar().setTitle("Inicio");
                             break;
-                    case 1:getSupportActionBar().setTitle("Albaranes");
-                            break;
-                    case 2:getSupportActionBar().setTitle("Pizarra");
-                            break;
-                    case 3:getSupportActionBar().setTitle("Envases");
+                    case 1: getSupportActionBar().setTitle("Pizarra");
                         break;
-                    case 4:getSupportActionBar().setTitle("Cuentas");
+                    case 2:getSupportActionBar().setTitle("Albaranes");
+                            break;
+                    case 3:getSupportActionBar().setTitle("Estadísticas");
+                            break;
+                    case 4:getSupportActionBar().setTitle("Envases");
+                        break;
+                    case 5:getSupportActionBar().setTitle("Cuentas");
                         break;
                 }
                 Fragment f = adapter.getItem(position);
