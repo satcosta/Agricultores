@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Agricultores</string>
+    <string name="c_del1">Eliminar código</string>
+    <string name="c_del2">Está seguro de eliminar este código?</string>
 </resources>
