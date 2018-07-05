@@ -2,4 +2,8 @@
     <string name="app_name">Agricultores</string>
     <string name="c_del1">Eliminar código</string>
     <string name="c_del2">Está seguro de eliminar este código?</string>
+    <string name="codigo">Código:</string>
+    <string name="pass">Contraseña:</string>
+    <string name="guardar">Guardar</string>
+    <string name="noti">Utilize su clave para el acceso web, si aún no dispone de clave puede solicitarla en recepción.</string>
 </resources>

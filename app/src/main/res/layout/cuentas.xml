@@ -4,10 +4,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <TableLayout
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondo9"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="?android:textColorSecondary"
+                style="?android:textAppearanceSmall"
+                android:textSize="16sp"
+                android:text="@string/codigo">
+            </TextView>
+            <EditText
+                android:id="@+id/codigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="5"
+                android:inputType="phone"
+                android:ems="10">
+            </EditText>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="16sp"
+                style="?android:textAppearanceSmall"
+                android:text="@string/pass">
+            </TextView>
+
+            <EditText
+                android:id="@+id/pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType ="textPassword"
+                android:ems="10">
+            </EditText>
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_guardar"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="?android:textAppearanceSmall"
+                android:textSize="18dp"
+                android:layout_span="2"
+                android:text="@string/guardar"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="?android:textColorSecondary"
+                style="?android:textAppearanceSmall"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:layout_span="2"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/noti">
+            </TextView>
+        </TableRow>
+    </TableLayout>
     <ListView
         android:id="@+id/listc"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/empty"></ListView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_add"

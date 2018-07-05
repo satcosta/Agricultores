@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TableLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class configuracion extends Fragment implements AsyncResponse{
     private ListView list;
     ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
     codigos listAdapter;
+    TableLayout nuevo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,10 +38,13 @@ public class configuracion extends Fragment implements AsyncResponse{
         final View vi=inflater.inflate(R.layout.cuentas, container, false);
         list= (ListView) vi.findViewById(R.id.listc);
         btn_add = (FloatingActionButton) vi.findViewById(R.id.btn_add);
+        nuevo =(TableLayout) vi.findViewById(R.id.empty);
+        nuevo.setVisibility(View.GONE);
         songsList.clear();
         btn_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("TAG", "Hacer algo");
+                nuevo.setVisibility(View.VISIBLE);
                 php=new webphp();
                 php.delegate = configuracion.this;
                 php.execute("http://192.168.0.163/login.php","1","1234","123456789");
@@ -59,6 +64,7 @@ public class configuracion extends Fragment implements AsyncResponse{
         songsList.add(map);
         listAdapter=new codigos(getContext(), songsList);
         list.setAdapter(listAdapter);
+        nuevo.setVisibility(View.GONE);
     }
 
 }
