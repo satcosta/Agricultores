@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -59,6 +61,8 @@ public class cuentas extends Fragment implements AsyncResponse{
         });
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                 progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
                 php=new webphp();
                 php.delegate = cuentas.this;

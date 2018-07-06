@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cesar.agricultores.R;
-import com.example.cesar.agricultores.configuracion;
+import com.example.cesar.agricultores.cuentas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,11 +50,11 @@ public class codigos extends BaseAdapter {
         final View vi2=vi;
         TextView codigo = (TextView) vi.findViewById(R.id.codigo); // title
         TextView nombre = (TextView) vi.findViewById(R.id.nombre);
-        ImageButton btn_del= (ImageButton) vi.findViewById(R.id.btn_del);
+        Button btn_del= (Button) vi.findViewById(R.id.btn_del);
         HashMap<String, String> song = new HashMap<String, String>();
         song = data.get(position);
-        codigo.setText(song.get(configuracion.KEY_CODIGO));
-        nombre.setText(song.get(configuracion.KEY_NOMBRE));
+        codigo.setText(song.get(cuentas.KEY_CODIGO));
+        nombre.setText(song.get(cuentas.KEY_NOMBRE));
         btn_del.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new AlertDialog.Builder(context)

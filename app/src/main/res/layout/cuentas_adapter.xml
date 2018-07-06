@@ -24,11 +24,11 @@
         android:layout_width="0sp"
         android:layout_weight="0.8"
         />
-    <ImageButton
+    <Button
         android:id="@+id/btn_del"
         android:layout_width="30sp"
         android:layout_height="30sp"
-        android:src="@drawable/eliminar"/>
+        android:background="@drawable/eliminar"/>
     </TableRow>
 </TableLayout>
 </LinearLayout>
