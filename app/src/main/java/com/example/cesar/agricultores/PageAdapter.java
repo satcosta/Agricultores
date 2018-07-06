@@ -34,13 +34,13 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 albaranes tab3 = new albaranes();
                 return tab3;
             case 3:
-                saldos tab4 = new saldos();
+                estadisticas tab4 = new estadisticas();
                 return tab4;
             case 4:
                 envases tab5 = new envases();
                 return tab5;
             case 5:
-                configuracion tab6 = new configuracion();
+                cuentas tab6 = new cuentas();
                 return tab6;
             default:
                 return null;

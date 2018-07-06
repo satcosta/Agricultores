@@ -10,7 +10,7 @@ import android.view.ViewGroup;
  * Created by Cesar on 09/05/2018.
  */
 
-public class saldos extends Fragment {
+public class estadisticas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
