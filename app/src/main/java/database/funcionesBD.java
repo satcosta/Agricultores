@@ -1,9 +1,14 @@
 package database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.cesar.agricultores.clasecodigos;
+
+import java.util.ArrayList;
 
 public class funcionesBD {
     private Context context;
@@ -29,19 +34,31 @@ public class funcionesBD {
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
-        if(mCursor.getCount()==0)
-            db.execSQL("INSERT INTO user VALUES('"+codigo+"','"+nombre+"')");
+        if(mCursor.getCount()==0) {
+            ContentValues values = new ContentValues();
+            values.put("codigo", codigo);
+            values.put("nombre", nombre);
+            db.insert("user", null, values);
+        }
     }
     //Dar codigos
-    public String darusu(){
-        Integer res=1;
-        String idusu;
-        Cursor mCursor=db.query("usuarios", new String[] { "iduser" }, "id=1", null, null,null, null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        idusu=mCursor.getString(0);
+    public ArrayList<clasecodigos> darcodigos(){
+        ArrayList<clasecodigos> result= new ArrayList<clasecodigos>();
+        Cursor mCursor=db.query("user", new String[] { "codigo","nombre" }, null, null, null,null, null);
+        if (mCursor.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                clasecodigos codi=new clasecodigos();
+                codi.codigo=mCursor.getInt(0)+"";
+                codi.nombre=mCursor.getString(1);
+                result.add(codi);
+            } while(mCursor.moveToNext());
+        };
         mCursor.close();
-        return idusu;
+        return result;
+    }
+    //Borrar codigos
+    public void del_codigos(String codigo){
+        db.execSQL("DELETE FROM user WHERE codigo='"+codigo+"'");
     }
 }

@@ -18,11 +18,14 @@ import com.example.cesar.agricultores.cuentas;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import database.funcionesBD;
+
 public class codigos extends BaseAdapter {
     private Fragment activity;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater=null;
     Context context;
+    private funcionesBD bd;
     public codigos(Context context1, ArrayList<HashMap<String, String>> d) {
         this.context = context1;
         this.data = d;
@@ -48,7 +51,8 @@ public class codigos extends BaseAdapter {
         }
         // vi = inflater.inflate(R.layout.noticias_datos, null);
         final View vi2=vi;
-        TextView codigo = (TextView) vi.findViewById(R.id.codigo); // title
+        bd=new funcionesBD(this.context);
+        final TextView codigo = (TextView) vi.findViewById(R.id.codigo); // title
         TextView nombre = (TextView) vi.findViewById(R.id.nombre);
         Button btn_del= (Button) vi.findViewById(R.id.btn_del);
         HashMap<String, String> song = new HashMap<String, String>();
@@ -66,6 +70,9 @@ public class codigos extends BaseAdapter {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 vi2.setVisibility(View.GONE);
+                                bd.open();
+                                bd.del_codigos(codigo.getText().toString());
+                                bd.close();
                             }
 
                         })

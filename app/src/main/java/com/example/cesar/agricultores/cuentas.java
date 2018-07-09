@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adapters.codigos;
+import database.funcionesBD;
 
 /**
  * Created by Cesar on 09/05/2018.
@@ -39,6 +40,7 @@ public class cuentas extends Fragment implements AsyncResponse{
     EditText pass;
     Button btn_guardar;
     private ProgressDialog progDailog=null;
+    private funcionesBD bd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +55,20 @@ public class cuentas extends Fragment implements AsyncResponse{
         btn_guardar=(Button) vi.findViewById(R.id.btn_guardar);
         nuevo.setVisibility(View.GONE);
         songsList.clear();
+        bd= new funcionesBD(getContext());
+        bd.open();
+        ArrayList<clasecodigos> result =bd.darcodigos();
+        bd.close();
+        for(int a=0;a<result.size();a++){
+            clasecodigos codi=result.get(a);
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put(KEY_CODIGO, codi.codigo);
+            map.put(KEY_NOMBRE, codi.nombre);
+            songsList.add(map);
+            listAdapter = new codigos(getContext(), songsList);
+            list.setAdapter(listAdapter);
+        }
+
         btn_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("TAG", "Hacer algo");
@@ -74,15 +90,26 @@ public class cuentas extends Fragment implements AsyncResponse{
     }
     public void processFinish(String output) {
         Log.i("RESULTADO", output);
-        progDailog.dismiss();
-        HashMap<String, String> map = new HashMap<String, String>();
-        // adding each child node to HashMap key => value
-        map.put(KEY_CODIGO, codi.getText().toString());
-        map.put(KEY_NOMBRE, output);
-        songsList.add(map);
-        listAdapter=new codigos(getContext(), songsList);
-        list.setAdapter(listAdapter);
-        nuevo.setVisibility(View.GONE);
+        if(!output.toString().equals("ERROR")) {
+            String[] veri=output.toString().split(":");
+            if(veri.length>0)
+                if(veri[0].equals("OK")) {
+                    progDailog.dismiss();
+                    bd.open();
+                    bd.acodigo(codi.getText().toString(),veri[1]);
+                    bd.close();
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    // adding each child node to HashMap key => value
+                    map.put(KEY_CODIGO, codi.getText().toString());
+                    map.put(KEY_NOMBRE, veri[1]);
+                    songsList.add(map);
+                    listAdapter = new codigos(getContext(), songsList);
+                    list.setAdapter(listAdapter);
+                    nuevo.setVisibility(View.GONE);
+                }else
+                    progDailog.dismiss();
+        }else
+            progDailog.dismiss();
     }
 
 }
