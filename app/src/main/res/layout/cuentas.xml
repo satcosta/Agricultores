@@ -57,23 +57,37 @@
             </EditText>
         </TableRow>
         <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="?android:textAppearanceSmall"
+            android:textSize="18dp"
+            android:layout_span="2"
+            android:text="@string/guardar"/>
+    </TableRow>
+        <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center">
             <Button
-                android:id="@+id/btn_guardar"
+                android:id="@+id/btn_recuperar"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 style="?android:textAppearanceSmall"
                 android:textSize="18dp"
                 android:layout_span="2"
-                android:text="@string/guardar"/>
+                android:text="@string/recuperar"/>
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
             <TextView
+                android:id="@+id/msg"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textColor="?android:textColorSecondary"

@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TableLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +41,8 @@ public class cuentas extends Fragment implements AsyncResponse{
     EditText codi;
     EditText pass;
     Button btn_guardar;
+    Button btn_recuperar;
+    TextView msg;
     private ProgressDialog progDailog=null;
     private funcionesBD bd;
 
@@ -53,6 +57,8 @@ public class cuentas extends Fragment implements AsyncResponse{
         codi=(EditText) vi.findViewById(R.id.codigo) ;
         pass=(EditText) vi.findViewById(R.id.pass) ;
         btn_guardar=(Button) vi.findViewById(R.id.btn_guardar);
+        btn_recuperar=(Button) vi.findViewById(R.id.btn_recuperar);
+        msg=(TextView) vi.findViewById(R.id.msg);
         nuevo.setVisibility(View.GONE);
         songsList.clear();
         bd= new funcionesBD(getContext());
@@ -73,6 +79,8 @@ public class cuentas extends Fragment implements AsyncResponse{
             public void onClick(View v) {
                 Log.i("TAG", "Hacer algo");
                 nuevo.setVisibility(View.VISIBLE);
+                codi.setText("");
+                pass.setText("");
             }
         });
         btn_guardar.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +90,24 @@ public class cuentas extends Fragment implements AsyncResponse{
                 progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
                 php=new webphp();
                 php.delegate = cuentas.this;
-                php.execute("http://192.168.0.163/login.php",codi.getText().toString(),pass.getText().toString(),"123456789");
+                php.execute("http://192.168.0.46/agricultores/login.php",codi.getText().toString(),pass.getText().toString(),"123456789");
+            }
+        });
+        btn_recuperar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(codi.getText().toString().equals("")){
+                    Toast.makeText(getContext(),R.string.recuperar2, Toast.LENGTH_SHORT).show();
+                }else {
+                    bd.open();
+                    int intentos=bd.darintentos();
+                    bd.close();
+                    if(intentos==0) {
+                        php = new webphp();
+                        php.delegate2 = cuentas.this;
+                        php.execute("http://hcostadealmeria.com/agricultores/recuperar.php", codi.getText().toString());
+                    }else
+                        msg.setText(getResources().getString(R.string.msg5));
+                }
             }
         });
         return vi;
@@ -106,10 +131,19 @@ public class cuentas extends Fragment implements AsyncResponse{
                     listAdapter = new codigos(getContext(), songsList);
                     list.setAdapter(listAdapter);
                     nuevo.setVisibility(View.GONE);
-                }else
+                }else {
                     progDailog.dismiss();
-        }else
+                    msg.setText(getResources().getString(R.string.msg4));
+                }
+        }else {
             progDailog.dismiss();
+            msg.setText(getResources().getString(R.string.msg3));
+        }
+    }
+    public void processFinish2(String output) {
+        Log.i("RESULTADO",output+"<-");
+        msg.setText(getResources().getString(R.string.msg1)+" "+output.substring(0,2)+
+                "xxxxx"+output.substring(7,9)+" "+getResources().getString(R.string.msg2));
     }
 
 }

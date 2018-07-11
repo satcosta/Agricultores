@@ -73,6 +73,7 @@ public class codigos extends BaseAdapter {
                                 bd.open();
                                 bd.del_codigos(codigo.getText().toString());
                                 bd.close();
+
                             }
 
                         })
@@ -81,13 +82,6 @@ public class codigos extends BaseAdapter {
 
             }
         });
-        /*
-        Nomenvase.setTextColor(Color.WHITE);
-        cantidad.setTextColor(Color.WHITE);
-        cantidad.setText(song.get(envases.KEY_CANTIDAD));
-        vi.setBackgroundColor(Color.parseColor("#315b8f"));
-        cantidad.setTypeface(null, Typeface.BOLD);
-        cantidad.setTextSize(16);*/
         vi=vi2;
         return vi;
     }

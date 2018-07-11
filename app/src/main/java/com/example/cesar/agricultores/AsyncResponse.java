@@ -6,4 +6,5 @@ package com.example.cesar.agricultores;
 
 public interface AsyncResponse {
     void processFinish(String output);
+    void processFinish2(String output);
 }

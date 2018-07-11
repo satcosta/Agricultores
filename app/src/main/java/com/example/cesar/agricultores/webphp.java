@@ -27,6 +27,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class webphp extends AsyncTask<String, Void, String> {
     Context context;
     public AsyncResponse delegate = null;
+    public AsyncResponse delegate2 = null;
     protected void onPreExecute() {
 
     }
@@ -121,8 +122,10 @@ public class webphp extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        delegate.processFinish(result);
-
+        if(delegate!=null)
+            delegate.processFinish(result);
+        if(delegate2!=null)
+            delegate2.processFinish2(result);
         /*Toast.makeText(context.getApplicationContext(), "<-",
                 Toast.LENGTH_LONG).show();
                 */

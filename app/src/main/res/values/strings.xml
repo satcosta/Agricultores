@@ -5,5 +5,12 @@
     <string name="codigo">Código:</string>
     <string name="pass">Contraseña:</string>
     <string name="guardar">Guardar</string>
+    <string name="recuperar">Recuperar Contraseña</string>
+    <string name="recuperar2">Por favor, ponga su código de agricultor.</string>
+    <string name="msg1">Ha sido enviado un msg con la contraseña al número</string>
+    <string name="msg2">Si ese no es su número puede solicitar la clave en recepción.</string>
+    <string name="msg3">La contraseña es incorrecta.</string>
+    <string name="msg4">Hay problemas de conexión, intentelo mas tarde.</string>
+    <string name="msg5">Si no ha recibido el sms, puede solicitar una nueva contraseña en recepción.</string>
     <string name="noti">Utilize su clave para el acceso web, si aún no dispone de clave puede solicitarla en recepción.</string>
 </resources>

@@ -61,4 +61,16 @@ public class funcionesBD {
     public void del_codigos(String codigo){
         db.execSQL("DELETE FROM user WHERE codigo='"+codigo+"'");
     }
+    //Intentos de recuperar contraseña
+    public Integer darintentos(){
+        Integer res;
+        Cursor mCursor=db.query("intentos", new String[] { "total" }, "id=1", null, null,null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        res=mCursor.getInt(0);
+        mCursor.close();
+        return res;
+    }
+
 }
