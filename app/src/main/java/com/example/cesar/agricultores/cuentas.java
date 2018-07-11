@@ -104,7 +104,10 @@ public class cuentas extends Fragment implements AsyncResponse{
                     if(intentos==0) {
                         php = new webphp();
                         php.delegate2 = cuentas.this;
-                        php.execute("http://hcostadealmeria.com/agricultores/recuperar.php", codi.getText().toString());
+                        php.execute("http://192.168.0.46/agricultores/recuperar.php", codi.getText().toString());
+                        bd.open();
+                        bd.sum_intento();
+                        bd.close();
                     }else
                         msg.setText(getResources().getString(R.string.msg5));
                 }

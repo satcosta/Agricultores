@@ -72,5 +72,9 @@ public class funcionesBD {
         mCursor.close();
         return res;
     }
+    //Actualizar intentos
+    public void sum_intento(){
+        db.execSQL("UPDATE intentos SET total=1 WHERE id=1");
+    }
 
 }
