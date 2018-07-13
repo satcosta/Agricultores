@@ -90,7 +90,7 @@ public class cuentas extends Fragment implements AsyncResponse{
                 progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
                 php=new webphp();
                 php.delegate = cuentas.this;
-                php.execute("http://192.168.0.46/agricultores/login.php",codi.getText().toString(),pass.getText().toString(),"123456789");
+                php.execute("http://212.145.151.31:9090/agricultores/login.php",codi.getText().toString(),pass.getText().toString(),"123456789");
             }
         });
         btn_recuperar.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +104,7 @@ public class cuentas extends Fragment implements AsyncResponse{
                     if(intentos==0) {
                         php = new webphp();
                         php.delegate2 = cuentas.this;
-                        php.execute("http://192.168.0.46/agricultores/recuperar.php", codi.getText().toString());
+                        php.execute("http://212.145.151.31:9090/agricultores/recuperar.php", codi.getText().toString());
                         bd.open();
                         bd.sum_intento();
                         bd.close();
