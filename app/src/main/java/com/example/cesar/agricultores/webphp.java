@@ -1,7 +1,10 @@
 package com.example.cesar.agricultores;
 
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -26,15 +29,28 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class webphp extends AsyncTask<String, Void, String> {
     Context context;
+    ProgressDialog progDailog;
     public AsyncResponse delegate = null;
     public AsyncResponse delegate2 = null;
+
+    public webphp(Context cxt) {
+        Log.i("ERROR2",cxt+"<--");
+        this.context = cxt;
+        progDailog=new ProgressDialog(cxt);
+    }
     protected void onPreExecute() {
+        super.onPreExecute();
+
+        progDailog.setMessage("Cargando...");
+        progDailog.show();
+        //progDailog = ProgressDialog.show(context, "", "Cargando...", true);
 
     }
 
     protected String doInBackground(String... params) {
 
         try {
+
             String url1=params[0];
             URL url = new URL(url1);
             JSONObject postDataParams = new JSONObject();
@@ -122,6 +138,9 @@ public class webphp extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+
+        progDailog.dismiss();
+
         if(delegate!=null)
             delegate.processFinish(result);
         if(delegate2!=null)

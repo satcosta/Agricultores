@@ -6,7 +6,9 @@ package com.example.cesar.agricultores;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 /**
  * Created by Cesar on 10/05/2018.
@@ -22,7 +24,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
+        Log.i("CONTROL",position+"<-posicion");
         switch (position) {
             case 0:
                 principal tab1 = new principal();
@@ -51,7 +53,6 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mNumOfTabs;
     }
-
     @Override
     public int getItemPosition(Object object) {
 

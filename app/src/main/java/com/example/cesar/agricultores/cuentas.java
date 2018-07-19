@@ -43,7 +43,6 @@ public class cuentas extends Fragment implements AsyncResponse{
     Button btn_guardar;
     Button btn_recuperar;
     TextView msg;
-    private ProgressDialog progDailog=null;
     private funcionesBD bd;
 
     @Override
@@ -65,6 +64,7 @@ public class cuentas extends Fragment implements AsyncResponse{
         bd.open();
         ArrayList<clasecodigos> result =bd.darcodigos();
         bd.close();
+
         for(int a=0;a<result.size();a++){
             clasecodigos codi=result.get(a);
             HashMap<String, String> map = new HashMap<String, String>();
@@ -87,8 +87,8 @@ public class cuentas extends Fragment implements AsyncResponse{
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager)getContext().getSystemService(context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
-                php=new webphp();
+                //progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
+                php=new webphp(getContext());
                 php.delegate = cuentas.this;
                 php.execute("http://212.145.151.31:9090/agricultores/login.php",codi.getText().toString(),pass.getText().toString(),"123456789");
             }
@@ -102,7 +102,7 @@ public class cuentas extends Fragment implements AsyncResponse{
                     int intentos=bd.darintentos();
                     bd.close();
                     if(intentos==0) {
-                        php = new webphp();
+                        php = new webphp(getContext());
                         php.delegate2 = cuentas.this;
                         php.execute("http://212.145.151.31:9090/agricultores/recuperar.php", codi.getText().toString());
                         bd.open();
@@ -122,7 +122,6 @@ public class cuentas extends Fragment implements AsyncResponse{
             String[] veri=output.toString().split(":");
             if(veri.length>0)
                 if(veri[0].equals("OK")) {
-                    progDailog.dismiss();
                     bd.open();
                     bd.acodigo(codi.getText().toString(),veri[1]);
                     bd.close();
@@ -135,11 +134,9 @@ public class cuentas extends Fragment implements AsyncResponse{
                     list.setAdapter(listAdapter);
                     nuevo.setVisibility(View.GONE);
                 }else {
-                    progDailog.dismiss();
                     msg.setText(getResources().getString(R.string.msg4));
                 }
         }else {
-            progDailog.dismiss();
             msg.setText(getResources().getString(R.string.msg3));
         }
     }

@@ -38,6 +38,7 @@ public class funcionesBD {
             ContentValues values = new ContentValues();
             values.put("codigo", codigo);
             values.put("nombre", nombre);
+            values.put("predeterminado",1);//cambiar a 0
             db.insert("user", null, values);
         }
     }
@@ -57,18 +58,32 @@ public class funcionesBD {
         mCursor.close();
         return result;
     }
+    //Dar codigo predeterminado
+    public String dar_codigop(){
+        String res="0";
+        Cursor mCursor=db.query("user", new String[] { "codigo" }, "predeterminado=1", null, null,null, null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+            if(mCursor.getCount()>0)
+             res=mCursor.getString(0);
+            }
+        mCursor.close();
+        return res;
+    }
     //Borrar codigos
     public void del_codigos(String codigo){
         db.execSQL("DELETE FROM user WHERE codigo='"+codigo+"'");
     }
     //Intentos de recuperar contraseña
     public Integer darintentos(){
-        Integer res;
+        Integer res=0;
         Cursor mCursor=db.query("intentos", new String[] { "total" }, "id=1", null, null,null, null);
+
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
-        res=mCursor.getInt(0);
+
         mCursor.close();
         return res;
     }

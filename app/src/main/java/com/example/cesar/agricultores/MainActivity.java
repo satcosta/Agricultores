@@ -73,6 +73,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()){
+                    case 0: getSupportActionBar().setTitle("Inicio");
+                        break;
+                    case 1: getSupportActionBar().setTitle("Pizarra");
+                        break;
+                    case 2:getSupportActionBar().setTitle("Albaranes");
+                        break;
+                    case 3:getSupportActionBar().setTitle("Estadísticas");
+                        break;
+                    case 4:getSupportActionBar().setTitle("Envases");
+                        break;
+                    case 5:getSupportActionBar().setTitle("Cuentas");
+                        break;
+                }
+                //Log.i("CONTROL",tab.getPosition()+"<-tab position");
             }
 
             @Override
@@ -85,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        /*
         viewPager.setOffscreenPageLimit(1);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -94,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("AQUI SI:",position+"<-");
+                Log.i("CONTROL",position+"<-onpageselected");
                 //Force the fragment to reload its data
                 switch (position){
                     case 0: getSupportActionBar().setTitle("Inicio");
@@ -110,9 +126,11 @@ public class MainActivity extends AppCompatActivity {
                     case 5:getSupportActionBar().setTitle("Cuentas");
                         break;
                 }
+
                 Fragment f = adapter.getItem(position);
                 f.onResume();
-                //getSupportActionBar().setSelectedNavigationItem(position);
+
+
             }
 
             @Override
@@ -120,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 //Not used
             }
         });
+        */
     }
 
 }

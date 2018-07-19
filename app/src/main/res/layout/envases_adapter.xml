@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp">
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0">
+    <TextView
+        android:id="@+id/codigo"
+        android:gravity="center"
+        android:layout_height="30sp"
+        android:layout_width="0sp"
+        android:layout_weight="0.2"
+        />
+    <TextView
+        android:id="@+id/envase"
+        android:gravity="center"
+        android:layout_height="30sp"
+        android:layout_width="0sp"
+        android:layout_weight="0.6"
+        />
+    <TextView
+        android:id="@+id/saldo"
+        android:gravity="center"
+        android:layout_height="30sp"
+        android:layout_width="0sp"
+        android:layout_weight="0.2"
+        />
+    </TableRow>
+    </TableLayout>
+</LinearLayout>
