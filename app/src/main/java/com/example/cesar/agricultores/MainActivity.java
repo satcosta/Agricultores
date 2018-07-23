@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager mViewPager;
+    //private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                //Log.i("CONTROL",tab.getPosition()+"<-tab position");
                 switch (tab.getPosition()){
                     case 0: getSupportActionBar().setTitle("Inicio");
                         break;
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                     case 5:getSupportActionBar().setTitle("Cuentas");
                         break;
                 }
-                //Log.i("CONTROL",tab.getPosition()+"<-tab position");
             }
 
             @Override
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Log.i("CONTROL",position+"<-onpageselected");
-
             /*
                 Fragment f = adapter.getItem(position);
                 f.onResume();
