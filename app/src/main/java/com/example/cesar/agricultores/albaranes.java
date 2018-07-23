@@ -2,6 +2,7 @@ package com.example.cesar.agricultores;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ public class albaranes extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View vi=inflater.inflate(R.layout.principal, container, false);
-
+        Log.i("CONTROL", "albaranes");
         return vi;
     }
 }

@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         final PageAdapter adapter = new PageAdapter (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -100,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        /*
-        viewPager.setOffscreenPageLimit(1);
+
+        //viewPager.setOffscreenPageLimit(1);
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
@@ -111,25 +113,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Log.i("CONTROL",position+"<-onpageselected");
-                //Force the fragment to reload its data
-                switch (position){
-                    case 0: getSupportActionBar().setTitle("Inicio");
-                            break;
-                    case 1: getSupportActionBar().setTitle("Pizarra");
-                        break;
-                    case 2:getSupportActionBar().setTitle("Albaranes");
-                            break;
-                    case 3:getSupportActionBar().setTitle("Estadísticas");
-                            break;
-                    case 4:getSupportActionBar().setTitle("Envases");
-                        break;
-                    case 5:getSupportActionBar().setTitle("Cuentas");
-                        break;
-                }
 
+            /*
                 Fragment f = adapter.getItem(position);
                 f.onResume();
-
+            */
 
             }
 
@@ -138,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 //Not used
             }
         });
-        */
     }
 
 }

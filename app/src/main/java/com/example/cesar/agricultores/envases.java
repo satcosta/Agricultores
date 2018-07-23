@@ -56,6 +56,7 @@ public class envases extends Fragment implements AsyncResponse{
         codi=fbd.dar_codigop();
         fbd.close();
         Log.i("ERROR0", this.getContext() + "<--");
+        //Revisar context
         if(this.getContext()==null)
             cntx=glo.da_context();
         else {
@@ -74,7 +75,6 @@ public class envases extends Fragment implements AsyncResponse{
 
 
     public void processFinish(String output) {
-        //progDailog.dismiss();
         songsList.clear();
         Log.i("RESULTADO",output+"<--");
         String[] filas=output.split("#");

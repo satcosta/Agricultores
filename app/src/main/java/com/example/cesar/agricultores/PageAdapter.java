@@ -24,7 +24,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.i("CONTROL",position+"<-posicion");
+        //Log.i("CONTROL",position+"<-posicion");
         switch (position) {
             case 0:
                 principal tab1 = new principal();
