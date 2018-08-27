@@ -145,6 +145,7 @@ public class cuentas extends Fragment implements AsyncResponse{
                 bd.close();
                 //****************************
                 UpdateUser updateUser = new UpdateUser(bd);
+                updateUser.setVisible(false);
                 updateUser.update();
                 //****************************
             } else {

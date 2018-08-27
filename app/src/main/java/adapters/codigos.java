@@ -78,6 +78,7 @@ public class codigos extends BaseAdapter {
                                 bd.close();
                                 //******************************
                                 UpdateUser updateUser = new UpdateUser(bd);
+                                updateUser.setVisible(false);
                                 updateUser.update();
                                 //*******************************
 

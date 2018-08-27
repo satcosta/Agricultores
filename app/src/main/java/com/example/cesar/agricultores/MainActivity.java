@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private funcionesBD bd;
     private UpdateUser updateUser;
     public static ConstraintLayout user;
-    public static boolean upVisible = true;
     //*****************************
 
     @Override
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1: getSupportActionBar().setTitle("Pizarra");
                         //****************************
-                        user.setVisibility(View.VISIBLE);
+                        user.setVisibility(View.GONE);
                         //****************************
                         break;
                     case 2:getSupportActionBar().setTitle("Albaranes");
@@ -210,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         pizarra.colorCehorpa = savedInstanceState.getInt(STATE_COLOR_CEHORPA);
         pizarra.colorTomate = savedInstanceState.getInt(STATE_COLOR_TOMATE);
         //cont = savedInstanceState.getInt(STATE_CONT);
-        upVisible = savedInstanceState.getBoolean(STATE_UPVISIBLE);
+        updateUser.setVisible(savedInstanceState.getBoolean(STATE_UPVISIBLE));
         updateUser.setCont(savedInstanceState.getInt(STATE_CONT));
         updateUser.update();
         pizarra.buttonAlhondiga.setBackgroundColor(pizarra.colorAlhondiga);
@@ -226,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_COLOR_CEHORPA, pizarra.colorCehorpa);
         outState.putInt(STATE_COLOR_TOMATE, pizarra.colorTomate);
         outState.putInt(STATE_CONT, updateUser.getCont());
-        outState.putBoolean(STATE_UPVISIBLE, upVisible);
+        outState.putBoolean(STATE_UPVISIBLE, UpdateUser.isVisible());
         super.onSaveInstanceState(outState);
     }
 
