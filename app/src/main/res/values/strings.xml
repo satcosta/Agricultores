@@ -13,4 +13,21 @@
     <string name="msg4">Hay problemas de conexión, intentelo mas tarde.</string>
     <string name="msg5">Si no ha recibido el sms, puede solicitar una nueva contraseña en recepción.</string>
     <string name="noti">Utilize su clave para el acceso web, si aún no dispone de clave puede solicitarla en recepción.</string>
+    <string name="button_alhondiga_pizarra">Alhondiga</string>
+    <string name="button_cehorpa_pizarra">Cehorpa</string>
+    <string name="button_tomate_pizarra">Tomate</string>
+    <string name="home_title_1">Mensaje informativo</string>
+    <string name="home_title_2">Mensaje recomendado</string>
+    <string name="home_title_3">Información de venta</string>
+    <string name="home_title_default">Información financiera</string>
+    <string name="image_description_home">Indica el tipo de mensaje.</string>
+    <string name="button_right_description">Botón para pasar a la derecha.</string>
+    <string name="button_left_description">Botón para pasar a la izquierda.</string>
+    <string name="image_view_user_description">Imagen del usuario.</string>
+    <string name="albaranes_importe">Importe:</string>
+    <string name="albaranes_precio">Precio:</string>
+    <string name="albaranes_kilos">Kilos:</string>
+    <string name="albaranes_sello_pagado">Sello pagado</string>
+    <string name="text_view_config_flecha"><![CDATA[>]]></string>
+    <string name="imge_view_config_description">Imagen descriptiva.</string>
 </resources>

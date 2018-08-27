@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adapters.codigos;
+import database.funciones;
 import database.funcionesBD;
 
 /**
@@ -44,6 +45,7 @@ public class cuentas extends Fragment implements AsyncResponse{
     Button btn_recuperar;
     TextView msg;
     private funcionesBD bd;
+    private funciones fn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +66,8 @@ public class cuentas extends Fragment implements AsyncResponse{
         bd.open();
         ArrayList<clasecodigos> result =bd.darcodigos();
         bd.close();
+
+        fn = new funciones(getContext());
 
         for(int a=0;a<result.size();a++){
             clasecodigos codi=result.get(a);
@@ -90,7 +94,12 @@ public class cuentas extends Fragment implements AsyncResponse{
                 //progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
                 php=new webphp(getContext());
                 php.delegate = cuentas.this;
-                php.execute("http://212.145.151.31:9090/agricultores/login.php",codi.getText().toString(),pass.getText().toString(),"123456789");
+                //TODO Añadir un if para comprobar que no esten los campos en blanco
+                if(!"".equals(codi.getText().toString()) && !"".equals(pass.getText().toString())){
+                    php.execute(php.miIp  + "/agricultores/compruebaagri.php",codi.getText().toString(),pass.getText().toString(), fn.clave());
+                } else {
+                    Toast.makeText(getContext(), "Por favor, rellene los campos para continuar.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         btn_recuperar.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +113,9 @@ public class cuentas extends Fragment implements AsyncResponse{
                     if(intentos==0) {
                         php = new webphp(getContext());
                         php.delegate2 = cuentas.this;
-                        php.execute("http://212.145.151.31:9090/agricultores/recuperar.php", codi.getText().toString());
+                        php.execute(php.miIp  + "/agricultores/altaagricultor.php", codi.getText().toString(),fn.clave());
                         bd.open();
-                        bd.sum_intento();
+                        bd.sum_intento(1);
                         bd.close();
                     }else
                         msg.setText(getResources().getString(R.string.msg5));
@@ -118,27 +127,35 @@ public class cuentas extends Fragment implements AsyncResponse{
     }
     public void processFinish(String output) {
         Log.i("RESULTADO", output);
-        if(!output.toString().equals("ERROR")) {
-            String[] veri=output.toString().split(":");
-            if(veri.length>0)
-                if(veri[0].equals("OK")) {
-                    bd.open();
-                    bd.acodigo(codi.getText().toString(),veri[1]);
-                    bd.close();
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    // adding each child node to HashMap key => value
-                    map.put(KEY_CODIGO, codi.getText().toString());
-                    map.put(KEY_NOMBRE, veri[1]);
-                    songsList.add(map);
-                    listAdapter = new codigos(getContext(), songsList);
-                    list.setAdapter(listAdapter);
-                    nuevo.setVisibility(View.GONE);
-                }else {
-                    msg.setText(getResources().getString(R.string.msg4));
-                }
-        }else {
-            msg.setText(getResources().getString(R.string.msg3));
+
+        String[] veri=output.toString().split(":");
+        if(veri.length>0) {
+            if (!veri[0].equals("ERROR")) {
+                bd.open();
+                bd.acodigo(codi.getText().toString(), veri[1]);
+                HashMap<String, String> map = new HashMap<String, String>();
+                // adding each child node to HashMap key => value
+                map.put(KEY_CODIGO, codi.getText().toString());
+                map.put(KEY_NOMBRE, veri[1]);
+                songsList.add(map);
+                listAdapter = new codigos(getContext(), songsList);
+                list.setAdapter(listAdapter);
+                nuevo.setVisibility(View.GONE);
+                bd.sum_intento(0);
+                bd.close();
+                //****************************
+                UpdateUser updateUser = new UpdateUser(bd);
+                updateUser.update();
+                //****************************
+            } else {
+                // Mesaje: Codigo o contraseña no valida
+                msg.setText(getResources().getString(R.string.msg3));
+            }
+        } else {
+            // Error de conexion
+            msg.setText(getResources().getString(R.string.msg4));
         }
+
     }
     public void processFinish2(String output) {
         Log.i("RESULTADO",output+"<-");

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.cesar.agricultores.clasecodigos;
 
@@ -82,14 +83,20 @@ public class funcionesBD {
 
         if (mCursor != null) {
             mCursor.moveToFirst();
+            if(mCursor.getCount()>0) res=mCursor.getInt(0);
         }
-
+        Log.d("PHP", "darintentos: res vale ---------------------------------> " + res);
         mCursor.close();
         return res;
     }
-    //Actualizar intentos
-    public void sum_intento(){
-        db.execSQL("UPDATE intentos SET total=1 WHERE id=1");
+
+    /***
+     * Actualiza intentos, numIntento, numero de intentos
+     * @param numIntentos numero de intentos a grabar
+     */
+      public void sum_intento(int numIntentos){
+        db.execSQL("UPDATE intentos SET total=" + String.valueOf(numIntentos) + " WHERE id=1");
     }
+
 
 }

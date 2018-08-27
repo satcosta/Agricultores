@@ -68,8 +68,10 @@ public class envases extends Fragment implements AsyncResponse{
             php = new webphp(cntx);
             php.delegate = envases.this;
             Log.i("RESULT COD", codi + "<--");
-            php.execute("http://212.145.151.31:9090/agricultores/saldocajasagri2.php", codi, fn.clave());
+            php.execute(php.miIp  + "/agricultores/saldocajasagri.php", codi, fn.clave());
         }
+
+
         return vi;
     }
 

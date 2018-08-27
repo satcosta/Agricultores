@@ -12,7 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.cesar.agricultores.MainActivity;
 import com.example.cesar.agricultores.R;
+import com.example.cesar.agricultores.UpdateUser;
 import com.example.cesar.agricultores.cuentas;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class codigos extends BaseAdapter {
     private static LayoutInflater inflater=null;
     Context context;
     private funcionesBD bd;
+
     public codigos(Context context1, ArrayList<HashMap<String, String>> d) {
         this.context = context1;
         this.data = d;
@@ -73,6 +76,10 @@ public class codigos extends BaseAdapter {
                                 bd.open();
                                 bd.del_codigos(codigo.getText().toString());
                                 bd.close();
+                                //******************************
+                                UpdateUser updateUser = new UpdateUser(bd);
+                                updateUser.update();
+                                //*******************************
 
                             }
 
@@ -83,6 +90,7 @@ public class codigos extends BaseAdapter {
             }
         });
         vi=vi2;
+
         return vi;
     }
 }

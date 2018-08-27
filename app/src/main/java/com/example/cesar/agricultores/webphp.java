@@ -33,6 +33,8 @@ public class webphp extends AsyncTask<String, Void, String> {
     public AsyncResponse delegate = null;
     public AsyncResponse delegate2 = null;
 
+    public String miIp = "http://192.168.0.46" ;
+
     public webphp(Context cxt) {
         Log.i("ERROR2",cxt+"<--");
         this.context = cxt;

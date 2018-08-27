@@ -27,7 +27,8 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         //Log.i("CONTROL",position+"<-posicion");
         switch (position) {
             case 0:
-                principal tab1 = new principal();
+                //principal tab1 = new principal();
+                home tab1 = new home();
                 return tab1;
             case 1:
                 pizarra tab2 = new pizarra();
@@ -42,7 +43,8 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 envases tab5 = new envases();
                 return tab5;
             case 5:
-                cuentas tab6 = new cuentas();
+                //cuentas tab6 = new cuentas();
+                configuracion tab6 = new configuracion();
                 return tab6;
             default:
                 return null;
