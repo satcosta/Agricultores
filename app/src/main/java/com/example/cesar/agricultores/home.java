@@ -1,8 +1,12 @@
 package com.example.cesar.agricultores;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +22,7 @@ import database.funcionesBD;
 
 public class home extends Fragment implements AsyncResponse{ // Es la clase principal. Ana
 
-    //private static final String TAG = "home";
+    private static final String TAG = "home";
 
     private ListView lista;
     //private ProgressDialog progDialog = null;
@@ -30,6 +34,8 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
     ArrayList<HashMap<String, String>> songsLists = new ArrayList<>();
     home_adapt listAdapter;
     Context cntx;
+    private BroadcastReceiver mReciever;
+    Fragment fragment;
 
     @Override
 
@@ -64,10 +70,35 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
             php = new webphp(cntx);
             php.delegate = home.this;
             Log.i("RESULT COD2", codi + "<--");
-            php.execute(php.miIp + "/agricultores/consultamensajes.php", codi, fn.clave());
+            php.execute(php.miIp + "/agricultores/consultamensajes.php", MainActivity.codigo, fn.clave());
+            //Log.d(TAG, "onCreateView: codi ------------------------------> " + MainActivity.codigo + "  -- " + MainActivity.i++);
 
         }
         //MainActivity.user.setVisibility(View.VISIBLE);
+        fragment = this;
+        mReciever = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().contentEquals("db.update") && MainActivity.i == 0){
+                    ++MainActivity.i;
+                    Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.i + " vez/ces");
+                    //Refrescar el fragment.
+                    try{
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(fragment);
+                        ft.attach(fragment);
+                        ft.commit();
+                    } catch (NullPointerException e){
+                        Log.e(TAG, "onReceive: NullPointer exception.");
+                        MainActivity.i--;
+                    }
+                }
+            }
+        };
+
+        IntentFilter mDataUpdateFilter = new IntentFilter("db.update");
+        getActivity().getApplicationContext().registerReceiver(mReciever, mDataUpdateFilter);
+
         return vi;
     }
 
@@ -89,11 +120,17 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
 
         lista.setAdapter(listAdapter);
 
-
+        MainActivity.i = 0;
     }
 
     @Override
     public void processFinish2(String output) {
-        
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getApplicationContext().unregisterReceiver(mReciever);
     }
 }

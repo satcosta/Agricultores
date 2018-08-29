@@ -22,6 +22,8 @@ import database.funcionesBD;
 
 public class albaranes extends Fragment implements AsyncResponse  { // Ana
 
+    private static final String TAG = "albaranes";
+
     private ListView lista;
     String codi;
     private Global glo = Global.getInstance();
@@ -71,7 +73,9 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
             php = new webphp(cntx);
             php.delegate = albaranes.this;
             Log.i("RESULT COD2", codi + "<--");
-            php.execute(php.miIp + "/agricultores/consultaalbaranes.php", codi, fn.clave());
+            php.execute(php.miIp + "/agricultores/consultaalbaranes.php", MainActivity.codigo, fn.clave());
+            Log.d(TAG, "onCreateView: codigo ----------------------------------> " + MainActivity.codigo + "  -- " + MainActivity.i++);
+
 
         }
 

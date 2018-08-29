@@ -1,5 +1,7 @@
 package com.example.cesar.agricultores;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,7 +13,7 @@ import database.funcionesBD;
 
 /**
  * Clase que actualiza los usuarios.
- * @author
+ * @author Ana
  * @version 24/5/2018
  */
 
@@ -22,12 +24,13 @@ public class UpdateUser implements View.OnClickListener{ // Ana
     private ArrayList<clasecodigos> result;
     private funcionesBD bd;
     private int cont;
-    private static boolean visible = true;
+    public static boolean isVisible = true;
+    public static Context updateContext;
 
     //90008:8511
+    //90006:4024
 
-    //TODO: Hacer que no salga user al borrar un usuario.
-    //TODO: Cuando solo hay un usuario y se le da la vuelta a la pantalla vuelve a apareceer el user.
+    //TODO: Sincronizar lo da arriba con lo de abajo en home, albaranes y envases.
 
     /**
      * Al constructor solo se le pasan las funciones.
@@ -43,7 +46,7 @@ public class UpdateUser implements View.OnClickListener{ // Ana
     /**
      * Getter del contador.
      * @return cont
-     *      Es como un índice para para pasar de un agricultor a otro con las flechas.
+     *      Es como un índice para pasar de un agricultor a otro con las flechas.
      */
 
     public int getCont() {
@@ -53,7 +56,7 @@ public class UpdateUser implements View.OnClickListener{ // Ana
     /**
      * Setter del contador.
      * @param cont
-     *      El índice dele agricultor.
+     *      El índice del agricultor.
      */
 
     public void setCont(int cont) {
@@ -61,22 +64,13 @@ public class UpdateUser implements View.OnClickListener{ // Ana
     }
 
     /**
-     * Getter de visible.
-     * @return visible
+     * Getter de result
+     * @return result
+     *      Lista que contiene los usuarios.
      */
 
-    public static boolean isVisible() {
-        return visible;
-    }
-
-    /**
-     * Setter de visible.
-     * @param visible
-     *      Variable que determina si el usuario se ve o no.
-     */
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public ArrayList<clasecodigos> getResult() {
+        return result;
     }
 
     /**
@@ -87,22 +81,19 @@ public class UpdateUser implements View.OnClickListener{ // Ana
         bd.open();
         result = bd.darcodigos();
         bd.close();
-
+        //Log.d(TAG, "update: -------------------------------------> result.size() vale " + result.size());
         ImageButton der = (ImageButton) MainActivity.user.getViewById(R.id.imageButtonDer);
         ImageButton izq = (ImageButton) MainActivity.user.getViewById(R.id.imageButtonIzq);
-
 
         if(0 >= result.size()){
             MainActivity.user.setVisibility(View.GONE);
         } else{
             if(1 == result.size()){
-                Log.d(TAG, "update: visible vale --------------------------------------------- > " + visible);
-                if(visible){
+                //Log.d(TAG, "update: visible vale --------------------------------------------- > " + visible);
+                if(isVisible){
                     MainActivity.user.setVisibility(View.VISIBLE);
-
-                } else{
+                } else {
                     MainActivity.user.setVisibility(View.GONE);
-                    visible = true;
                 }
                 der.setVisibility(View.INVISIBLE);
                 izq.setVisibility(View.INVISIBLE);
@@ -135,6 +126,11 @@ public class UpdateUser implements View.OnClickListener{ // Ana
             }
         }
         setUserText(cont);
+        if(MainActivity.i == 0){
+            Intent updateIntent = new Intent("db.update");
+            updateContext.sendBroadcast(updateIntent);
+            Log.d(TAG, "onClick: --------------------> instancia enviada.");
+        }
     }
 
     /**
@@ -146,7 +142,13 @@ public class UpdateUser implements View.OnClickListener{ // Ana
         TextView numero = (TextView) MainActivity.user.getViewById(R.id.textViewNumero);
         TextView nombre = (TextView) MainActivity.user.getViewById(R.id.textViewNombre);
         numero.setText(result.get(i).codigo);
+        //Log.d(TAG, "setUserText: codigo ---------------------------------> " + MainActivity.codigo + " ---- " + MainActivity.i++);
+        if(!numero.getText().toString().equals(MainActivity.codigo)){
+            MainActivity.codigo = result.get(i).codigo;
+        }
+        //Log.d(TAG, "setUserText: codigo ---------------------------------> " + MainActivity.codigo + " ---- " + MainActivity.i++);
         nombre.setText(result.get(i).nombre);
     }
+
 
 }

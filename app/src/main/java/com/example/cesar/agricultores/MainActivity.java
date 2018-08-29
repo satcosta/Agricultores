@@ -5,10 +5,6 @@ import android.graphics.Typeface;
 import android.provider.SyncStateContract;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 
 import database.funcionesBD;
 
@@ -29,16 +22,22 @@ public class MainActivity extends AppCompatActivity {
     //private ViewPager mViewPager;
 
     //*****************************
+    private static final String TAG = "MainActivity";
+    public static int i = 0;
+
     public static final String STATE_DOWNLOAD_URL = "downloadUrlPizarra";
     public static final String STATE_COLOR_ALHONDIGA = "colorAlhondiga";
     public static final String STATE_COLOR_CEHORPA = "colorCehorpa";
     public static final String STATE_COLOR_TOMATE = "colorTomate";
     public static final String STATE_CONT = "cont";
     public static final String STATE_UPVISIBLE = "upVisible";
+    public static final String STATE_CODI = "codi";
 
     private funcionesBD bd;
     private UpdateUser updateUser;
     public static ConstraintLayout user;
+    public static String codigo;
+
     //*****************************
 
     @Override
@@ -96,31 +95,37 @@ public class MainActivity extends AppCompatActivity {
                     case 0: getSupportActionBar().setTitle("Inicio");
                         //****************************
                         user.setVisibility(View.VISIBLE);
+                        UpdateUser.isVisible = true;
                         //****************************
                         break;
                     case 1: getSupportActionBar().setTitle("Pizarra");
                         //****************************
                         user.setVisibility(View.GONE);
+                        UpdateUser.isVisible = false;
                         //****************************
                         break;
                     case 2:getSupportActionBar().setTitle("Albaranes");
                         //****************************
                         user.setVisibility(View.VISIBLE);
+                        UpdateUser.isVisible = true;
                         //****************************
                         break;
                     case 3:getSupportActionBar().setTitle("Estadísticas");
                         //****************************
                         user.setVisibility(View.VISIBLE);
+                        UpdateUser.isVisible = true;
                         //****************************
                         break;
                     case 4:getSupportActionBar().setTitle("Envases");
                         //****************************
                         user.setVisibility(View.VISIBLE);
+                        UpdateUser.isVisible = true;
                         //****************************
                         break;
                     case 5:getSupportActionBar().setTitle("Cuentas");
                         //****************************
                         user.setVisibility(View.GONE);
+                        UpdateUser.isVisible = false;
                         //****************************
                         break;
                 }
@@ -194,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             setUserText(0);
         }*/
         //******************************
+        UpdateUser.updateContext = MainActivity.this.getApplicationContext();
         user = findViewById(R.id.user);
         bd = new funcionesBD(this);
         updateUser = new UpdateUser(bd);
@@ -209,9 +215,12 @@ public class MainActivity extends AppCompatActivity {
         pizarra.colorCehorpa = savedInstanceState.getInt(STATE_COLOR_CEHORPA);
         pizarra.colorTomate = savedInstanceState.getInt(STATE_COLOR_TOMATE);
         //cont = savedInstanceState.getInt(STATE_CONT);
-        updateUser.setVisible(savedInstanceState.getBoolean(STATE_UPVISIBLE));
+        UpdateUser.isVisible = savedInstanceState.getBoolean(STATE_UPVISIBLE);
         updateUser.setCont(savedInstanceState.getInt(STATE_CONT));
+        codigo = savedInstanceState.getString(STATE_CODI);
+        Log.d(TAG, "onRestoreInstanceState: codi -----------------------------------> " + codigo + "  -- " + i++);
         updateUser.update();
+        Log.d(TAG, "onRestoreInstanceState: codi -----------------------------------> " + codigo + "  -- " + i++);
         pizarra.buttonAlhondiga.setBackgroundColor(pizarra.colorAlhondiga);
         pizarra.buttonCehorpa.setBackgroundColor(pizarra.colorCehorpa);
         pizarra.buttonTomate.setBackgroundColor(pizarra.colorTomate);
@@ -225,7 +234,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_COLOR_CEHORPA, pizarra.colorCehorpa);
         outState.putInt(STATE_COLOR_TOMATE, pizarra.colorTomate);
         outState.putInt(STATE_CONT, updateUser.getCont());
-        outState.putBoolean(STATE_UPVISIBLE, UpdateUser.isVisible());
+        outState.putBoolean(STATE_UPVISIBLE, UpdateUser.isVisible);
+        outState.putString(STATE_CODI, codigo);
         super.onSaveInstanceState(outState);
     }
 
@@ -259,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
         numero.setText(result.get(i).codigo);
         nombre.setText(result.get(i).nombre);
     }*/
+
 
     //************************
 

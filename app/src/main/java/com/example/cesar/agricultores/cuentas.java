@@ -30,13 +30,16 @@ import database.funcionesBD;
  */
 
 public class cuentas extends Fragment implements AsyncResponse{
+
+    private static final String TAG = "cuentas";
+
     Context context;
     private webphp php;
     public static final String KEY_CODIGO = "codigo";
     public static final String KEY_NOMBRE = "nombre";
     FloatingActionButton btn_add;
     private ListView list;
-    ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+    static ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
     codigos listAdapter;
     TableLayout nuevo;
     EditText codi;
@@ -46,6 +49,9 @@ public class cuentas extends Fragment implements AsyncResponse{
     TextView msg;
     private funcionesBD bd;
     private funciones fn;
+    //******************************
+    private UpdateUser updateUser;
+    //******************************
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,21 +69,28 @@ public class cuentas extends Fragment implements AsyncResponse{
         nuevo.setVisibility(View.GONE);
         songsList.clear();
         bd= new funcionesBD(getContext());
-        bd.open();
-        ArrayList<clasecodigos> result =bd.darcodigos();
-        bd.close();
+        //bd.open();
+        //ArrayList<clasecodigos> result =bd.darcodigos();
+        //bd.close();
+        //************************************
+        updateUser = new UpdateUser(bd);
+        updateUser.update();
+        //************************************
 
         fn = new funciones(getContext());
 
-        for(int a=0;a<result.size();a++){
-            clasecodigos codi=result.get(a);
+        UpdateUserList(updateUser, songsList);
+        Log.d(TAG, "onCreateView: -------------------------------> " + songsList.toString());
+
+        /*for(int a=0;a<updateUser.getResult().size();a++){
+            clasecodigos codi=updateUser.getResult().get(a);
             HashMap<String, String> map = new HashMap<String, String>();
             map.put(KEY_CODIGO, codi.codigo);
             map.put(KEY_NOMBRE, codi.nombre);
             songsList.add(map);
-            listAdapter = new codigos(getContext(), songsList);
-            list.setAdapter(listAdapter);
-        }
+        }*/
+        listAdapter = new codigos(getContext(), songsList);
+        list.setAdapter(listAdapter);
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -138,14 +151,13 @@ public class cuentas extends Fragment implements AsyncResponse{
                 map.put(KEY_CODIGO, codi.getText().toString());
                 map.put(KEY_NOMBRE, veri[1]);
                 songsList.add(map);
+                Log.d(TAG, "processFinish: -----------------------------------> " + songsList.toString());
                 listAdapter = new codigos(getContext(), songsList);
                 list.setAdapter(listAdapter);
                 nuevo.setVisibility(View.GONE);
                 bd.sum_intento(0);
                 bd.close();
                 //****************************
-                UpdateUser updateUser = new UpdateUser(bd);
-                updateUser.setVisible(false);
                 updateUser.update();
                 //****************************
             } else {
@@ -164,4 +176,21 @@ public class cuentas extends Fragment implements AsyncResponse{
                 "xxxxx"+output.substring(7,9)+" "+getResources().getString(R.string.msg2));
     }
 
+   private static void UpdateUserList(UpdateUser updateUser, ArrayList<HashMap<String, String>> songsList){
+       for(int a=0;a<updateUser.getResult().size();a++){
+           clasecodigos codi=updateUser.getResult().get(a);
+           HashMap<String, String> map = new HashMap<String, String>();
+           map.put(KEY_CODIGO, codi.codigo);
+           map.put(KEY_NOMBRE, codi.nombre);
+           songsList.add(map);
+       }
+   }
+
+    /**
+     * Método que elimina un elemento de la lista al eliminar un código.
+     * @param song
+     */
+   public static void EliminarItemList(HashMap<String, String> song){
+        songsList.remove(song);
+   }
 }

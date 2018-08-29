@@ -1,6 +1,7 @@
 package adapters;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,4 +100,5 @@ public class home_adapt extends BaseAdapter { // Ana
         fecha = dia + "/" + mes + "/" + anio;
         return fecha;
     }
+
 }

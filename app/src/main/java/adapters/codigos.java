@@ -58,8 +58,8 @@ public class codigos extends BaseAdapter {
         final TextView codigo = (TextView) vi.findViewById(R.id.codigo); // title
         TextView nombre = (TextView) vi.findViewById(R.id.nombre);
         Button btn_del= (Button) vi.findViewById(R.id.btn_del);
-        HashMap<String, String> song = new HashMap<String, String>();
-        song = data.get(position);
+        final HashMap<String, String> song = data.get(position);
+        //song = data.get(position);
         codigo.setText(song.get(cuentas.KEY_CODIGO));
         nombre.setText(song.get(cuentas.KEY_NOMBRE));
         btn_del.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +77,8 @@ public class codigos extends BaseAdapter {
                                 bd.del_codigos(codigo.getText().toString());
                                 bd.close();
                                 //******************************
+                                cuentas.EliminarItemList(song);
                                 UpdateUser updateUser = new UpdateUser(bd);
-                                updateUser.setVisible(false);
                                 updateUser.update();
                                 //*******************************
 

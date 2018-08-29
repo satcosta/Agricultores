@@ -24,6 +24,8 @@ import database.funcionesBD;
 
 public class envases extends Fragment implements AsyncResponse{
 
+    private static final String TAG = "envases";
+
     private ListView lista;
     private webphp php;
     private ProgressDialog progDailog=null;
@@ -68,7 +70,9 @@ public class envases extends Fragment implements AsyncResponse{
             php = new webphp(cntx);
             php.delegate = envases.this;
             Log.i("RESULT COD", codi + "<--");
-            php.execute(php.miIp  + "/agricultores/saldocajasagri.php", codi, fn.clave());
+            php.execute(php.miIp  + "/agricultores/saldocajasagri.php", MainActivity.codigo, fn.clave());
+            Log.d(TAG, "onCreateView: codigo ---------------------------> " + MainActivity.codigo + " ---- " + MainActivity.i++);
+
         }
 
 
