@@ -1,8 +1,12 @@
 package com.example.cesar.agricultores;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +42,8 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
     ArrayList<HashMap<String, String>> songsLists = new ArrayList<>();
     albaranes_adapt listAdapter;
     Context cntx;
+    private BroadcastReceiver mReciever;
+    private Fragment fragment;
 
 
     @Override
@@ -48,6 +54,11 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
         Log.i("CONTROL", "albaranes");
 
         //******************************
+        /*if(null != savedInstanceState){
+            MainActivity.codigo = savedInstanceState.getString(MainActivity.STATE_CODI);
+            Log.d(TAG, "onRestoreInstanceState: ----------------------------------> codigo vale " + MainActivity.codigo);
+        }*/
+
         lista = vi.findViewById(R.id.listaA);
         Log.i("CONTROL2", "onCreateView: albaranes refrecados.");
 
@@ -74,13 +85,36 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
             php.delegate = albaranes.this;
             Log.i("RESULT COD2", codi + "<--");
             php.execute(php.miIp + "/agricultores/consultaalbaranes.php", MainActivity.codigo, fn.clave());
-            Log.d(TAG, "onCreateView: codigo ----------------------------------> " + MainActivity.codigo + "  -- " + MainActivity.i++);
+            Log.d(TAG, "onCreateView: ----------------------------------> codigo vale " + MainActivity.codigo);
 
 
         }
 
         //*****************************
-
+        fragment = this;
+        if(null == mReciever){
+            mReciever = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (intent.getAction().contentEquals("dbalbaranes.update") && MainActivity.vecesEjecutado == 0){
+                        ++MainActivity.vecesEjecutado;
+                        //Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.vecesEjecutado + " vez/ces");
+                        //Refrescar el fragment.
+                        try{
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(fragment);
+                            ft.attach(fragment);
+                            ft.commit();
+                        } catch (NullPointerException e){
+                            Log.e(TAG, "onReceive: NullPointer exception.");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+        }
+        IntentFilter mDataUpdateFilter = new IntentFilter("dbalbaranes.update");
+        getActivity().getApplicationContext().registerReceiver(mReciever, mDataUpdateFilter);
 
         return vi;
     }
@@ -107,10 +141,17 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
 
         lista.setAdapter(listAdapter);
 
+        MainActivity.vecesEjecutado = 0;
     }
 
     @Override
     public void processFinish2(String output) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getApplicationContext().unregisterReceiver(mReciever);
     }
 }

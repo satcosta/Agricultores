@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     //*****************************
     private static final String TAG = "MainActivity";
-    public static int i = 0;
+    public static int vecesEjecutado = 0;
 
     public static final String STATE_DOWNLOAD_URL = "downloadUrlPizarra";
     public static final String STATE_COLOR_ALHONDIGA = "colorAlhondiga";
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private UpdateUser updateUser;
     public static ConstraintLayout user;
     public static String codigo;
+    public static  String action = "dbhome.update";
 
     //*****************************
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         //****************************
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
+                        action = "dbhome.update";
                         //****************************
                         break;
                     case 1: getSupportActionBar().setTitle("Pizarra");
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                         //****************************
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
+                        action = "dbalbaranes.update";
                         //****************************
                         break;
                     case 3:getSupportActionBar().setTitle("Estadísticas");
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         //****************************
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
+                        action = "dbenvases.update";
                         //****************************
                         break;
                     case 5:getSupportActionBar().setTitle("Cuentas");
@@ -199,11 +203,21 @@ public class MainActivity extends AppCompatActivity {
             setUserText(0);
         }*/
         //******************************
+
         UpdateUser.updateContext = MainActivity.this.getApplicationContext();
         user = findViewById(R.id.user);
         bd = new funcionesBD(this);
         updateUser = new UpdateUser(bd);
+        if(null != savedInstanceState){
+            //updateUser.setCont(savedInstanceState.getInt(STATE_CONT));
+            UpdateUser.cont = savedInstanceState.getInt(STATE_CONT);
+            //Log.d(TAG, "onCreate: -----------------------------------> cont restaurado vale " + updateUser.getCont());
+            Log.d(TAG, "onCreate: -----------------------------------> cont restaurado vale " + UpdateUser.cont);
+            codigo = savedInstanceState.getString(STATE_CODI);
+            Log.d(TAG, "onCreate: -----------------------------------> el código restaurado vale " + codigo);
+        }
         updateUser.update();
+        Log.d(TAG, "onCreate: -----------------------------------> el código restaurado después de updateUser.update() vale " + codigo);
     }
 
     //************************
@@ -214,13 +228,7 @@ public class MainActivity extends AppCompatActivity {
         pizarra.colorAlhondiga = savedInstanceState.getInt(STATE_COLOR_ALHONDIGA);
         pizarra.colorCehorpa = savedInstanceState.getInt(STATE_COLOR_CEHORPA);
         pizarra.colorTomate = savedInstanceState.getInt(STATE_COLOR_TOMATE);
-        //cont = savedInstanceState.getInt(STATE_CONT);
         UpdateUser.isVisible = savedInstanceState.getBoolean(STATE_UPVISIBLE);
-        updateUser.setCont(savedInstanceState.getInt(STATE_CONT));
-        codigo = savedInstanceState.getString(STATE_CODI);
-        Log.d(TAG, "onRestoreInstanceState: codi -----------------------------------> " + codigo + "  -- " + i++);
-        updateUser.update();
-        Log.d(TAG, "onRestoreInstanceState: codi -----------------------------------> " + codigo + "  -- " + i++);
         pizarra.buttonAlhondiga.setBackgroundColor(pizarra.colorAlhondiga);
         pizarra.buttonCehorpa.setBackgroundColor(pizarra.colorCehorpa);
         pizarra.buttonTomate.setBackgroundColor(pizarra.colorTomate);
@@ -233,9 +241,12 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_COLOR_ALHONDIGA, pizarra.colorAlhondiga);
         outState.putInt(STATE_COLOR_CEHORPA, pizarra.colorCehorpa);
         outState.putInt(STATE_COLOR_TOMATE, pizarra.colorTomate);
-        outState.putInt(STATE_CONT, updateUser.getCont());
+        //outState.putInt(STATE_CONT, updateUser.getCont());
+        outState.putInt(STATE_CONT, UpdateUser.cont);
+        Log.d(TAG, "onSaveInstanceState: ------------------------> cont vale " + UpdateUser.cont);
         outState.putBoolean(STATE_UPVISIBLE, UpdateUser.isVisible);
         outState.putString(STATE_CODI, codigo);
+        Log.d(TAG, "onSaveInstanceState: ------------------------------> el código guardado es " + codigo);
         super.onSaveInstanceState(outState);
     }
 

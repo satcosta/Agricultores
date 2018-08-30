@@ -35,7 +35,7 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
     home_adapt listAdapter;
     Context cntx;
     private BroadcastReceiver mReciever;
-    Fragment fragment;
+    private Fragment fragment;
 
     @Override
 
@@ -71,32 +71,33 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
             php.delegate = home.this;
             Log.i("RESULT COD2", codi + "<--");
             php.execute(php.miIp + "/agricultores/consultamensajes.php", MainActivity.codigo, fn.clave());
-            //Log.d(TAG, "onCreateView: codi ------------------------------> " + MainActivity.codigo + "  -- " + MainActivity.i++);
+            Log.d(TAG, "onCreateView: ------------------------------> codigo vale " + MainActivity.codigo);
 
         }
         //MainActivity.user.setVisibility(View.VISIBLE);
         fragment = this;
-        mReciever = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().contentEquals("db.update") && MainActivity.i == 0){
-                    ++MainActivity.i;
-                    Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.i + " vez/ces");
-                    //Refrescar el fragment.
-                    try{
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.detach(fragment);
-                        ft.attach(fragment);
-                        ft.commit();
-                    } catch (NullPointerException e){
-                        Log.e(TAG, "onReceive: NullPointer exception.");
-                        MainActivity.i--;
+        if(null == mReciever){
+            mReciever = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (intent.getAction().contentEquals("dbhome.update") && MainActivity.vecesEjecutado == 0){
+                        ++MainActivity.vecesEjecutado;
+                        //Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.vecesEjecutado + " vez/ces");
+                        //Refrescar el fragment.
+                        try{
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(fragment);
+                            ft.attach(fragment);
+                            ft.commit();
+                        } catch (NullPointerException e){
+                            Log.e(TAG, "onReceive: NullPointer exception.");
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        };
-
-        IntentFilter mDataUpdateFilter = new IntentFilter("db.update");
+            };
+        }
+        IntentFilter mDataUpdateFilter = new IntentFilter("dbhome.update");
         getActivity().getApplicationContext().registerReceiver(mReciever, mDataUpdateFilter);
 
         return vi;
@@ -120,7 +121,7 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
 
         lista.setAdapter(listAdapter);
 
-        MainActivity.i = 0;
+        MainActivity.vecesEjecutado = 0;
     }
 
     @Override

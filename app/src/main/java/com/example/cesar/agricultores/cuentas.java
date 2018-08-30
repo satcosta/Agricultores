@@ -52,12 +52,12 @@ public class cuentas extends Fragment implements AsyncResponse{
     //******************************
     private UpdateUser updateUser;
     //******************************
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View vi=inflater.inflate(R.layout.cuentas, container, false);
+        Log.d(TAG, "onCreateView: -------------------------------> código vale " + MainActivity.codigo);
         list= (ListView) vi.findViewById(R.id.listc);
         btn_add = (FloatingActionButton) vi.findViewById(R.id.btn_add);
         nuevo =(TableLayout) vi.findViewById(R.id.empty);
@@ -74,6 +74,7 @@ public class cuentas extends Fragment implements AsyncResponse{
         //bd.close();
         //************************************
         updateUser = new UpdateUser(bd);
+        Log.d(TAG, "onCreateView: -------------------------------> código vale " + MainActivity.codigo);
         updateUser.update();
         //************************************
 
@@ -81,6 +82,9 @@ public class cuentas extends Fragment implements AsyncResponse{
 
         UpdateUserList(updateUser, songsList);
         Log.d(TAG, "onCreateView: -------------------------------> " + songsList.toString());
+        Log.d(TAG, "onCreateView: -------------------------------> código vale " + MainActivity.codigo);
+        //Log.d(TAG, "onCreateView: -------------------------------> cont vale " + updateUser.getCont());
+        Log.d(TAG, "onCreateView: -------------------------------> cont vale " + UpdateUser.cont);
 
         /*for(int a=0;a<updateUser.getResult().size();a++){
             clasecodigos codi=updateUser.getResult().get(a);
@@ -107,9 +111,9 @@ public class cuentas extends Fragment implements AsyncResponse{
                 //progDailog = ProgressDialog.show(getContext(), "", "Cargando...", true);
                 php=new webphp(getContext());
                 php.delegate = cuentas.this;
-                //TODO Añadir un if para comprobar que no esten los campos en blanco
                 if(!"".equals(codi.getText().toString()) && !"".equals(pass.getText().toString())){
                     php.execute(php.miIp  + "/agricultores/compruebaagri.php",codi.getText().toString(),pass.getText().toString(), fn.clave());
+
                 } else {
                     Toast.makeText(getContext(), "Por favor, rellene los campos para continuar.", Toast.LENGTH_SHORT).show();
                 }

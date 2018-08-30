@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,9 @@ import java.util.HashMap;
 import database.funcionesBD;
 
 public class codigos extends BaseAdapter {
+
+    private static final String TAG = "codigos";
+    
     private Fragment activity;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater=null;
@@ -72,14 +77,21 @@ public class codigos extends BaseAdapter {
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                vi2.setVisibility(View.GONE);
+                                //vi2.setVisibility(View.GONE);
                                 bd.open();
                                 bd.del_codigos(codigo.getText().toString());
                                 bd.close();
                                 //******************************
                                 cuentas.EliminarItemList(song);
                                 UpdateUser updateUser = new UpdateUser(bd);
+                                UpdateUser.cont = 0;
                                 updateUser.update();
+                                if(MainActivity.vecesEjecutado == 0){
+                                    Log.d(TAG, "onClick: -----------------------------> action vale " + MainActivity.action);
+                                    Intent updateIntent = new Intent(MainActivity.action);
+                                    context.sendBroadcast(updateIntent);
+                                    Log.d(TAG, "onClick: --------------------> instancia enviada.");
+                                }
                                 //*******************************
 
                             }
