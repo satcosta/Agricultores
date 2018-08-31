@@ -20,8 +20,6 @@ import database.funcionesBD;
 
 public class pizarras_adapt extends BaseAdapter { // Ana
 
-    //private static final String TAG = "pizarras_adapt";
-
     private ArrayList<HashMap<String, String>> data;
     private Context context;
 
@@ -55,7 +53,6 @@ public class pizarras_adapt extends BaseAdapter { // Ana
         //*************
         vi.setBackgroundColor(position % 2 == 0? Color.parseColor("#FAFAFA"):Color.parseColor("#E1F5FE"));
         //************
-        //funcionesBD bd = new funcionesBD(this.context);
         final TextView nombre = vi.findViewById(R.id.nombreP);
         TextView corte1 = vi.findViewById(R.id.corte1);
         TextView corte2 = vi.findViewById(R.id.corte2);

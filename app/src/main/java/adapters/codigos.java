@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,8 +27,6 @@ import database.funcionesBD;
 
 public class codigos extends BaseAdapter {
 
-    private static final String TAG = "codigos";
-    
     private Fragment activity;
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater=null;
@@ -86,12 +85,11 @@ public class codigos extends BaseAdapter {
                                 UpdateUser updateUser = new UpdateUser(bd);
                                 UpdateUser.cont = 0;
                                 updateUser.update();
-                                if(MainActivity.vecesEjecutado == 0){
-                                    Log.d(TAG, "onClick: -----------------------------> action vale " + MainActivity.action);
+                                if(0 == MainActivity.vecesEjecutado){
                                     Intent updateIntent = new Intent(MainActivity.action);
                                     context.sendBroadcast(updateIntent);
-                                    Log.d(TAG, "onClick: --------------------> instancia enviada.");
                                 }
+                                notifyDataSetChanged();
                                 //*******************************
 
                             }

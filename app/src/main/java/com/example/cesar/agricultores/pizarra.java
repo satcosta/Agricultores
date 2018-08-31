@@ -21,8 +21,6 @@ import database.funcionesBD;
 
 public class pizarra extends Fragment implements AsyncResponse, View.OnClickListener { // Ana
 
-    //private static final String TAG = "pizarra";
-
     private ListView lista;
     //private ProgressDialog progDialog = null;
     String codi;
@@ -65,7 +63,6 @@ public class pizarra extends Fragment implements AsyncResponse, View.OnClickList
         colorCehorpa = ((ColorDrawable) buttonCehorpa.getBackground()).getColor();
         colorTomate = ((ColorDrawable) buttonTomate.getBackground()).getColor();
 
-        downloadUrlPizarra = "https://hcostadealmeria.com/pizarra/pizarraalhondiga.php";
         //********************
 
         lista = vi.findViewById(R.id.listeP);

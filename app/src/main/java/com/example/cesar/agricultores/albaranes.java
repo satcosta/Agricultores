@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 import adapters.albaranes_adapt;
 import database.funciones;
-import database.funcionesBD;
 
 /**
  * Created by Cesar on 09/05/2018.
@@ -29,7 +28,7 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
     private static final String TAG = "albaranes";
 
     private ListView lista;
-    String codi;
+    //String codi;
     private Global glo = Global.getInstance();
     // private ProgressDialog progDialog = null;
     public static final String KEY_ALBARAN = "albaran";
@@ -54,23 +53,18 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
         Log.i("CONTROL", "albaranes");
 
         //******************************
-        /*if(null != savedInstanceState){
-            MainActivity.codigo = savedInstanceState.getString(MainActivity.STATE_CODI);
-            Log.d(TAG, "onRestoreInstanceState: ----------------------------------> codigo vale " + MainActivity.codigo);
-        }*/
-
         lista = vi.findViewById(R.id.listaA);
         Log.i("CONTROL2", "onCreateView: albaranes refrecados.");
 
         webphp php;
 
         funciones fn = new funciones(getContext());
-        funcionesBD fbd = new funcionesBD(getContext());
+        //funcionesBD fbd = new funcionesBD(getContext());
 
-        fbd.open();
+        /*fbd.open();
         codi = fbd.dar_codigop();
         fbd.close();
-        Log.i("ERROR02",this.getContext() + "<--");
+        Log.i("ERROR02",this.getContext() + "<--");*/
 
         if(this.getContext() == null){
             cntx = glo.da_context();
@@ -83,11 +77,8 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
         if(cntx != null){
             php = new webphp(cntx);
             php.delegate = albaranes.this;
-            Log.i("RESULT COD2", codi + "<--");
+            //Log.i("RESULT COD2", codi + "<--");
             php.execute(php.miIp + "/agricultores/consultaalbaranes.php", MainActivity.codigo, fn.clave());
-            Log.d(TAG, "onCreateView: ----------------------------------> codigo vale " + MainActivity.codigo);
-
-
         }
 
         //*****************************
@@ -98,7 +89,6 @@ public class albaranes extends Fragment implements AsyncResponse  { // Ana
                 public void onReceive(Context context, Intent intent) {
                     if (intent.getAction().contentEquals("dbalbaranes.update") && MainActivity.vecesEjecutado == 0){
                         ++MainActivity.vecesEjecutado;
-                        //Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.vecesEjecutado + " vez/ces");
                         //Refrescar el fragment.
                         try{
                             FragmentTransaction ft = getFragmentManager().beginTransaction();

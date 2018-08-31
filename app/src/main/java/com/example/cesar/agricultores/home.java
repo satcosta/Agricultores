@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 import adapters.home_adapt;
 import database.funciones;
-import database.funcionesBD;
 
 public class home extends Fragment implements AsyncResponse{ // Es la clase principal. Ana
 
@@ -26,7 +25,7 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
 
     private ListView lista;
     //private ProgressDialog progDialog = null;
-    String codi;
+    //String codi;
     private Global glo = Global.getInstance();
     public static final String KEY_FECHA = "fecha";
     public static final String KEY_MENSAJE = "mensaje";
@@ -46,17 +45,20 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
         lista = vi.findViewById(R.id.listaH);
         Log.i("CONTROL2", "onCreateView: mensajes refrecados.");
 
+        Log.d(TAG, "onCreateView: ------------------> home refrescado.");
+
         webphp php;
 
         //http://192.168.0.46/agricultores/consultamensajes.php
         //http://212.145.151.31:9090/agricultores/consultamensajes.php
-        funciones fn = new funciones(getContext());
-        funcionesBD fbd = new funcionesBD(getContext());
 
-        fbd.open();
+        funciones fn = new funciones(getContext());
+        //funcionesBD fbd = new funcionesBD(getContext());
+
+        /*fbd.open();
         codi = fbd.dar_codigop();
         fbd.close();
-        Log.i("ERROR02",this.getContext() + "<--");
+        Log.i("ERROR02",this.getContext() + "<--");*/
 
         if(this.getContext() == null){
             cntx = glo.da_context();
@@ -69,12 +71,10 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
         if(cntx != null){
             php = new webphp(cntx);
             php.delegate = home.this;
-            Log.i("RESULT COD2", codi + "<--");
+            //Log.i("RESULT COD2", codi + "<--");
             php.execute(php.miIp + "/agricultores/consultamensajes.php", MainActivity.codigo, fn.clave());
-            Log.d(TAG, "onCreateView: ------------------------------> codigo vale " + MainActivity.codigo);
-
         }
-        //MainActivity.user.setVisibility(View.VISIBLE);
+
         fragment = this;
         if(null == mReciever){
             mReciever = new BroadcastReceiver() {
@@ -82,7 +82,6 @@ public class home extends Fragment implements AsyncResponse{ // Es la clase prin
                 public void onReceive(Context context, Intent intent) {
                     if (intent.getAction().contentEquals("dbhome.update") && MainActivity.vecesEjecutado == 0){
                         ++MainActivity.vecesEjecutado;
-                        //Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.vecesEjecutado + " vez/ces");
                         //Refrescar el fragment.
                         try{
                             FragmentTransaction ft = getFragmentManager().beginTransaction();

@@ -19,16 +19,18 @@ import database.funcionesBD;
 
 public class UpdateUser implements View.OnClickListener{ // Ana
 
-    private static final String TAG = "UpdateUser";
-
     private ArrayList<clasecodigos> result;
     private funcionesBD bd;
     public static int cont = 0;
     public static boolean isVisible = true;
     public static Context updateContext;
 
+    //TODO: Cuando se eliminan los usuarios sigue apareciendo el último eliminado.
+    //TODO: Cuando no hay usuarios y se añade uno y luego se pasa a envases no sale información.
+
     //90008:8511
     //90006:4024
+    //90009:5540
     /**
      * Al constructor solo se le pasan las funciones.
      * @param bd Funciones para acceder a la base de datos.
@@ -77,7 +79,6 @@ public class UpdateUser implements View.OnClickListener{ // Ana
         bd.open();
         result = bd.darcodigos();
         bd.close();
-        //Log.d(TAG, "update: -------------------------------------> result.size() vale " + result.size());
         ImageButton der = (ImageButton) MainActivity.user.getViewById(R.id.imageButtonDer);
         ImageButton izq = (ImageButton) MainActivity.user.getViewById(R.id.imageButtonIzq);
 
@@ -85,7 +86,6 @@ public class UpdateUser implements View.OnClickListener{ // Ana
             MainActivity.user.setVisibility(View.GONE);
         } else{
             if(1 == result.size()){
-                //Log.d(TAG, "update: visible vale --------------------------------------------- > " + visible);
                 if(isVisible){
                     MainActivity.user.setVisibility(View.VISIBLE);
                 } else {
@@ -121,13 +121,10 @@ public class UpdateUser implements View.OnClickListener{ // Ana
                 }
             }
         }
-        Log.d(TAG, "onClick: ----------------------------------> cont vale " + cont);
         setUserText(cont);
-        if(MainActivity.vecesEjecutado == 0){
-            Log.d(TAG, "onClick: -----------------------------> action vale " + MainActivity.action);
+        if(0 == MainActivity.vecesEjecutado){
             Intent updateIntent = new Intent(MainActivity.action);
             updateContext.sendBroadcast(updateIntent);
-            Log.d(TAG, "onClick: --------------------> instancia enviada.");
         }
     }
 
@@ -139,16 +136,10 @@ public class UpdateUser implements View.OnClickListener{ // Ana
     private void setUserText(int i){
         TextView numero = (TextView) MainActivity.user.getViewById(R.id.textViewNumero);
         TextView nombre = (TextView) MainActivity.user.getViewById(R.id.textViewNombre);
-        /*if(result.size() == i){
-            Log.d(TAG, "setUserText: -----------------------------> result.size() == index");
-            i = result.size() - 1;
-        }*/
         numero.setText(result.get(i).codigo);
-        //Log.d(TAG, "setUserText: codigo ---------------------------------> " + MainActivity.codigo + " ---- " + MainActivity.i++);
         if(!numero.getText().toString().equals(MainActivity.codigo)){
             MainActivity.codigo = result.get(i).codigo;
         }
-        //Log.d(TAG, "setUserText: codigo ---------------------------------> " + MainActivity.codigo + " ---- " + MainActivity.i++);
         nombre.setText(result.get(i).nombre);
     }
 

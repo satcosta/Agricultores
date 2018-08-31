@@ -19,7 +19,6 @@ public class configuracion extends Fragment { // Ana
     Context context;
     private Global glo = Global.getInstance();
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

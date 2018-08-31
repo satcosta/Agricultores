@@ -22,8 +22,6 @@ import java.util.Arrays;
 
 public class configuracion_adapt extends BaseAdapter { // Ana
 
-    //private static final String TAG = "configuracion_adapt";
-
     private ArrayList<String> data;
     private Context context;
 

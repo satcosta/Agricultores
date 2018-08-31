@@ -12,7 +12,7 @@ import android.widget.ListView;
  * Created by Cesar on 09/05/2018.
  */
 
-public class principal extends Fragment {
+public class principal extends Fragment { // Es la clase home.
 
     public principal(){
 

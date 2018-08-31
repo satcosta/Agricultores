@@ -15,6 +15,9 @@ import android.util.Log;
  */
 
 public class PageAdapter extends FragmentStatePagerAdapter {
+
+    private static final String TAG = "PageAdapter";
+    
     int mNumOfTabs;
 
     public PageAdapter(FragmentManager fm, int NumOfTabs) {
@@ -25,6 +28,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         //Log.i("CONTROL",position+"<-posicion");
+
         switch (position) {
             case 0:
                 //principal tab1 = new principal();
@@ -41,7 +45,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 return tab4;
             case 4:
                 envases tab5 = new envases();
+
                 return tab5;
+
             case 5:
                 //cuentas tab6 = new cuentas();
                 configuracion tab6 = new configuracion();
@@ -49,6 +55,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
+
     }
 
     @Override

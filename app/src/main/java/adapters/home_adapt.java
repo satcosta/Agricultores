@@ -20,8 +20,6 @@ import database.funcionesBD;
 
 public class home_adapt extends BaseAdapter { // Ana
 
-    //private static final String TAG = "home_adapt";
-
     private ArrayList<HashMap<String, String>> data;
     private Context context;
 

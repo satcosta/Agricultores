@@ -33,9 +33,9 @@ public class envases extends Fragment implements AsyncResponse{
     private ListView lista;
     private webphp php;
     private ProgressDialog progDailog=null;
-    private funcionesBD fbd;
+    //private funcionesBD fbd;
     private funciones fn;
-    String codi;
+    //String codi;
     private Global glo=Global.getInstance();
     public static final String KEY_CODIGO = "codigo";
     public static final String KEY_ENVASE = "envase";
@@ -53,18 +53,22 @@ public class envases extends Fragment implements AsyncResponse{
         final View vi=inflater.inflate(R.layout.envases, container, false);
         lista=(ListView) vi.findViewById(R.id.liste);
         Log.i("CONTROL","envases refrescado");
+        Log.d(TAG, "onCreateView: ------------------------------> envases refrescados.");
 
         fn=new funciones(getContext());
-        fbd= new funcionesBD(getContext());
+        //fbd= new funcionesBD(getContext());
+
         /*
         if(fn!=null)
             glo.pon_funciones(fn);
         glo.pon_funcionesbd(fbd);
         */
-        fbd.open();
+
+        /*fbd.open();
         codi=fbd.dar_codigop();
         fbd.close();
-        Log.i("ERROR0", this.getContext() + "<--");
+        Log.i("ERROR0", this.getContext() + "<--");*/
+
         //Revisar context
         if(this.getContext()==null)
             cntx=glo.da_context();
@@ -76,10 +80,8 @@ public class envases extends Fragment implements AsyncResponse{
         if(cntx!=null) {
             php = new webphp(cntx);
             php.delegate = envases.this;
-            Log.i("RESULT COD", codi + "<--");
+            //Log.i("RESULT COD", codi + "<--");
             php.execute(php.miIp  + "/agricultores/saldocajasagri.php", MainActivity.codigo, fn.clave());
-            Log.d(TAG, "onCreateView: codigo ---------------------------> codigo vale " + MainActivity.codigo);
-
         }
 
         fragment = this;
@@ -89,7 +91,6 @@ public class envases extends Fragment implements AsyncResponse{
                 public void onReceive(Context context, Intent intent) {
                     if (intent.getAction().contentEquals("dbenvases.update") && MainActivity.vecesEjecutado == 0){
                         ++MainActivity.vecesEjecutado;
-                        //Log.d(TAG, "onReceive: ----------------------------> método ejecutado " + MainActivity.vecesEjecutado + " vez/ces");
                         //Refrescar el fragment.
                         try{
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -106,7 +107,6 @@ public class envases extends Fragment implements AsyncResponse{
         }
         IntentFilter mDataUpdateFilter = new IntentFilter("dbenvases.update");
         getActivity().getApplicationContext().registerReceiver(mReciever, mDataUpdateFilter);
-
 
         return vi;
     }

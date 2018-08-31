@@ -2,6 +2,7 @@ package com.example.cesar.agricultores;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -31,8 +32,6 @@ import database.funcionesBD;
 
 public class cuentas extends Fragment implements AsyncResponse{
 
-    private static final String TAG = "cuentas";
-
     Context context;
     private webphp php;
     public static final String KEY_CODIGO = "codigo";
@@ -57,7 +56,6 @@ public class cuentas extends Fragment implements AsyncResponse{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View vi=inflater.inflate(R.layout.cuentas, container, false);
-        Log.d(TAG, "onCreateView: -------------------------------> código vale " + MainActivity.codigo);
         list= (ListView) vi.findViewById(R.id.listc);
         btn_add = (FloatingActionButton) vi.findViewById(R.id.btn_add);
         nuevo =(TableLayout) vi.findViewById(R.id.empty);
@@ -74,17 +72,12 @@ public class cuentas extends Fragment implements AsyncResponse{
         //bd.close();
         //************************************
         updateUser = new UpdateUser(bd);
-        Log.d(TAG, "onCreateView: -------------------------------> código vale " + MainActivity.codigo);
         updateUser.update();
         //************************************
 
         fn = new funciones(getContext());
 
         UpdateUserList(updateUser, songsList);
-        Log.d(TAG, "onCreateView: -------------------------------> " + songsList.toString());
-        Log.d(TAG, "onCreateView: -------------------------------> código vale " + MainActivity.codigo);
-        //Log.d(TAG, "onCreateView: -------------------------------> cont vale " + updateUser.getCont());
-        Log.d(TAG, "onCreateView: -------------------------------> cont vale " + UpdateUser.cont);
 
         /*for(int a=0;a<updateUser.getResult().size();a++){
             clasecodigos codi=updateUser.getResult().get(a);
@@ -93,6 +86,7 @@ public class cuentas extends Fragment implements AsyncResponse{
             map.put(KEY_NOMBRE, codi.nombre);
             songsList.add(map);
         }*/
+
         listAdapter = new codigos(getContext(), songsList);
         list.setAdapter(listAdapter);
 
@@ -144,7 +138,6 @@ public class cuentas extends Fragment implements AsyncResponse{
     }
     public void processFinish(String output) {
         Log.i("RESULTADO", output);
-
         String[] veri=output.toString().split(":");
         if(veri.length>0) {
             if (!veri[0].equals("ERROR")) {
@@ -155,7 +148,6 @@ public class cuentas extends Fragment implements AsyncResponse{
                 map.put(KEY_CODIGO, codi.getText().toString());
                 map.put(KEY_NOMBRE, veri[1]);
                 songsList.add(map);
-                Log.d(TAG, "processFinish: -----------------------------------> " + songsList.toString());
                 listAdapter = new codigos(getContext(), songsList);
                 list.setAdapter(listAdapter);
                 nuevo.setVisibility(View.GONE);
@@ -180,7 +172,13 @@ public class cuentas extends Fragment implements AsyncResponse{
                 "xxxxx"+output.substring(7,9)+" "+getResources().getString(R.string.msg2));
     }
 
-   private static void UpdateUserList(UpdateUser updateUser, ArrayList<HashMap<String, String>> songsList){
+    /**
+     * Método que actualiza los elementos de la lista.
+     * @param updateUser objeto que actualiza usuarios.
+     * @param songsList lista de usuarios.
+     */
+
+    private static void UpdateUserList(UpdateUser updateUser, ArrayList<HashMap<String, String>> songsList){
        for(int a=0;a<updateUser.getResult().size();a++){
            clasecodigos codi=updateUser.getResult().get(a);
            HashMap<String, String> map = new HashMap<String, String>();

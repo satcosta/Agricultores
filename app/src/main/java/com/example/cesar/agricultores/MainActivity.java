@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
     //private ViewPager mViewPager;
 
     //*****************************
-    private static final String TAG = "MainActivity";
-    public static int vecesEjecutado = 0;
-
     public static final String STATE_DOWNLOAD_URL = "downloadUrlPizarra";
     public static final String STATE_COLOR_ALHONDIGA = "colorAlhondiga";
     public static final String STATE_COLOR_CEHORPA = "colorCehorpa";
@@ -33,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String STATE_UPVISIBLE = "upVisible";
     public static final String STATE_CODI = "codi";
 
-    private funcionesBD bd;
-    private UpdateUser updateUser;
+    public static int vecesEjecutado = 0;
     public static ConstraintLayout user;
     public static String codigo;
     public static  String action = "dbhome.update";
 
+    private UpdateUser updateUser;
     //*****************************
 
     @Override
@@ -98,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
                         action = "dbhome.update";
+                        if(null != updateUser){
+                            updateUser.update();
+                        }
                         //****************************
                         break;
                     case 1: getSupportActionBar().setTitle("Pizarra");
@@ -111,12 +111,18 @@ public class MainActivity extends AppCompatActivity {
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
                         action = "dbalbaranes.update";
+                        if(null != updateUser){
+                            updateUser.update();
+                        }
                         //****************************
                         break;
                     case 3:getSupportActionBar().setTitle("Estadísticas");
                         //****************************
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
+                        if(null != updateUser){
+                            updateUser.update();
+                        }
                         //****************************
                         break;
                     case 4:getSupportActionBar().setTitle("Envases");
@@ -124,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
                         user.setVisibility(View.VISIBLE);
                         UpdateUser.isVisible = true;
                         action = "dbenvases.update";
+                        if(null != updateUser){
+                            updateUser.update();
+                        }
                         //****************************
                         break;
                     case 5:getSupportActionBar().setTitle("Cuentas");
@@ -206,25 +215,20 @@ public class MainActivity extends AppCompatActivity {
 
         UpdateUser.updateContext = MainActivity.this.getApplicationContext();
         user = findViewById(R.id.user);
-        bd = new funcionesBD(this);
+        funcionesBD bd = new funcionesBD(this);
         updateUser = new UpdateUser(bd);
         if(null != savedInstanceState){
-            //updateUser.setCont(savedInstanceState.getInt(STATE_CONT));
             UpdateUser.cont = savedInstanceState.getInt(STATE_CONT);
-            //Log.d(TAG, "onCreate: -----------------------------------> cont restaurado vale " + updateUser.getCont());
-            Log.d(TAG, "onCreate: -----------------------------------> cont restaurado vale " + UpdateUser.cont);
             codigo = savedInstanceState.getString(STATE_CODI);
-            Log.d(TAG, "onCreate: -----------------------------------> el código restaurado vale " + codigo);
+            pizarra.downloadUrlPizarra = savedInstanceState.getString(STATE_DOWNLOAD_URL);
         }
         updateUser.update();
-        Log.d(TAG, "onCreate: -----------------------------------> el código restaurado después de updateUser.update() vale " + codigo);
     }
 
     //************************
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        pizarra.downloadUrlPizarra = savedInstanceState.getString(STATE_DOWNLOAD_URL);
         pizarra.colorAlhondiga = savedInstanceState.getInt(STATE_COLOR_ALHONDIGA);
         pizarra.colorCehorpa = savedInstanceState.getInt(STATE_COLOR_CEHORPA);
         pizarra.colorTomate = savedInstanceState.getInt(STATE_COLOR_TOMATE);
@@ -232,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
         pizarra.buttonAlhondiga.setBackgroundColor(pizarra.colorAlhondiga);
         pizarra.buttonCehorpa.setBackgroundColor(pizarra.colorCehorpa);
         pizarra.buttonTomate.setBackgroundColor(pizarra.colorTomate);
-        //setUserText(cont);
     }
 
     @Override
@@ -241,47 +244,11 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_COLOR_ALHONDIGA, pizarra.colorAlhondiga);
         outState.putInt(STATE_COLOR_CEHORPA, pizarra.colorCehorpa);
         outState.putInt(STATE_COLOR_TOMATE, pizarra.colorTomate);
-        //outState.putInt(STATE_CONT, updateUser.getCont());
         outState.putInt(STATE_CONT, UpdateUser.cont);
-        Log.d(TAG, "onSaveInstanceState: ------------------------> cont vale " + UpdateUser.cont);
         outState.putBoolean(STATE_UPVISIBLE, UpdateUser.isVisible);
         outState.putString(STATE_CODI, codigo);
-        Log.d(TAG, "onSaveInstanceState: ------------------------------> el código guardado es " + codigo);
         super.onSaveInstanceState(outState);
     }
-
-    /*@Override
-    public void onClick(View v) {
-        ImageButton button = (ImageButton) v;
-        if(R.id.imageButtonDer == button.getId()){
-            if(result.size() - 1 != cont){
-                cont++;
-            } else{
-                cont = 0;
-            }
-        } else{
-            if (button.getId() == R.id.imageButtonIzq) {
-                if(0 == cont){
-                    cont = result.size() - 1;
-                } else {
-                   cont--;
-                }
-            }
-        }
-        setUserText(cont);
-
-    }
-
-
-
-    private void setUserText(int i){
-        TextView numero = findViewById(R.id.textViewNumero);
-        TextView nombre = findViewById(R.id.textViewNombre);
-        numero.setText(result.get(i).codigo);
-        nombre.setText(result.get(i).nombre);
-    }*/
-
-
     //************************
 
 }
